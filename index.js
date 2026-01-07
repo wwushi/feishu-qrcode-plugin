@@ -8,9 +8,10 @@ const QRCode = require('qrcode');
  * @param {string} qrColor - 二维码颜色（HEX色值），默认黑色
  * @param {string} bgColor - 二维码背景色（HEX色值），默认白色
  * @param {number} size - 二维码尺寸，默认200
+ * @param {string} errorCorrectionLevel - 容错率级别：L(7%), M(15%), Q(25%), H(30%)，默认M
  * @returns {Promise<string>} 二维码图片的Base64编码
  */
-async function generateQRCode(content, qrColor = '#000000', bgColor = '#ffffff', size = 200) {
+async function generateQRCode(content, qrColor = '#000000', bgColor = '#ffffff', size = 200, errorCorrectionLevel = 'M') {
   try {
     // 参数校验
     if (!content) {
@@ -21,7 +22,7 @@ async function generateQRCode(content, qrColor = '#000000', bgColor = '#ffffff',
     const base64 = await QRCode.toDataURL(content, {
       width: size,
       margin: 1,
-      errorCorrectionLevel: 'M',
+      errorCorrectionLevel: errorCorrectionLevel,
       color: {
         dark: qrColor,
         light: bgColor

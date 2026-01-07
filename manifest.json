@@ -40,6 +40,14 @@
             "description": "二维码尺寸，默认200",
             "required": false,
             "default": 200
+          },
+          {
+            "name": "errorCorrectionLevel",
+            "type": "string",
+            "description": "容错率级别：L(7%), M(15%), Q(25%), H(30%)，默认M",
+            "required": false,
+            "default": "M",
+            "enum": ["L", "M", "Q", "H"]
           }
         ],
         "returns": {
