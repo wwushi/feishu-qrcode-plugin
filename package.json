@@ -11,7 +11,6 @@
   "license": "ISC",
   "type": "commonjs",
   "dependencies": {
-    "jimp": "^1.6.0",
     "qrcode": "^1.5.4"
   },
   "devDependencies": {

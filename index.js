@@ -1,22 +1,31 @@
 const QRCode = require('qrcode');
-// 简化实现，暂不使用Jimp库处理logo和文字，避免复杂性
-// 后续可以根据需要添加更复杂的图像处理功能
 
 /**
- * 将字段内容生成二维码
- * @param {string} content - 需要生成二维码的数据，可以是文本或链接
- * @param {number} size - 二维码尺寸，默认200
- * @param {string} logo - 二维码中心的logo图片URL
- * @param {string} qrColor - 二维码颜色，默认黑色
- * @param {string} bgColor - 二维码背景色，默认白色
- * @param {string} text - 二维码下方的文字
- * @param {string} textColor - 二维码文字颜色，默认黑色
- * @param {number} textSize - 二维码文字大小，默认12
- * @param {string} generateRange - 生成范围，整列或单行
+ * 飞书多维表格二维码生成插件
+ * 功能：将字段内容生成二维码图片，并支持自动更新
+ * 
+ * @param {Object} params - 插件参数
+ * @param {string} params.content - 需要生成二维码的数据，可以是文本或链接
+ * @param {number} [params.size=200] - 二维码尺寸，默认200px
+ * @param {string} [params.qrColor='#000000'] - 二维码颜色，默认黑色
+ * @param {string} [params.bgColor='#ffffff'] - 二维码背景色，默认白色
  * @returns {Promise<string>} 二维码图片的Base64编码
  */
-async function generateQRCode(content, size = 200, logo = '', qrColor = '#000000', bgColor = '#ffffff', text = '', textColor = '#000000', textSize = 12, generateRange = 'column') {
+async function generateQRCode(params) {
   try {
+    // 参数校验
+    if (!params || !params.content) {
+      throw new Error('缺少必要参数：content');
+    }
+    
+    // 解构参数并设置默认值
+    const {
+      content,
+      size = 200,
+      qrColor = '#000000',
+      bgColor = '#ffffff'
+    } = params;
+    
     // 生成二维码的Base64编码
     const base64 = await QRCode.toDataURL(content, {
       width: size,
@@ -30,8 +39,8 @@ async function generateQRCode(content, size = 200, logo = '', qrColor = '#000000
     
     return base64;
   } catch (error) {
-    console.error('生成二维码失败:', error);
-    throw new Error('生成二维码失败: ' + error.message);
+    console.error('二维码生成失败:', error);
+    throw new Error(`二维码生成失败: ${error.message}`);
   }
 }
 
