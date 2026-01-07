@@ -17,35 +17,71 @@
         "description": "将字段内容生成二维码",
         "parameters": [
           {
-            "name": "params",
-            "type": "object",
-            "description": "二维码生成参数",
-            "required": true,
-            "properties": {
-              "content": {
-                "type": "string",
-                "description": "需要生成二维码的数据，可以是文本或链接",
-                "required": true
-              },
-              "size": {
-                "type": "number",
-                "description": "二维码尺寸，默认200",
-                "required": false,
-                "default": 200
-              },
-              "qrColor": {
-                "type": "string",
-                "description": "二维码颜色，默认黑色",
-                "required": false,
-                "default": "#000000"
-              },
-              "bgColor": {
-                "type": "string",
-                "description": "二维码背景色，默认白色",
-                "required": false,
-                "default": "#ffffff"
-              }
-            }
+            "name": "content",
+            "type": "string",
+            "description": "需要生成二维码的内容（比如网址、文本等）",
+            "required": true
+          },
+          {
+            "name": "logo",
+            "type": "string",
+            "description": "logo图片URL，可将品牌标识、个性化图标嵌入二维码中心",
+            "required": false
+          },
+          {
+            "name": "qrColor",
+            "type": "string",
+            "description": "二维码颜色（HEX色值），默认黑色",
+            "required": false,
+            "default": "#000000"
+          },
+          {
+            "name": "bgColor",
+            "type": "string",
+            "description": "二维码背景色（HEX色值），默认白色",
+            "required": false,
+            "default": "#ffffff"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "二维码下方的文字内容",
+            "required": false
+          },
+          {
+            "name": "textColor",
+            "type": "string",
+            "description": "二维码下方文字的颜色（HEX色值），默认黑色",
+            "required": false,
+            "default": "#000000"
+          },
+          {
+            "name": "textSize",
+            "type": "number",
+            "description": "二维码下方文字的大小，默认12",
+            "required": false,
+            "default": 12
+          },
+          {
+            "name": "size",
+            "type": "number",
+            "description": "二维码尺寸，默认200",
+            "required": false,
+            "default": 200
+          },
+          {
+            "name": "margin",
+            "type": "number",
+            "description": "二维码边距，默认1",
+            "required": false,
+            "default": 1
+          },
+          {
+            "name": "errorCorrectionLevel",
+            "type": "string",
+            "description": "二维码容错率，可选值：L、M、Q、H，默认M",
+            "required": false,
+            "default": "M"
           }
         ],
         "returns": {
