@@ -5,20 +5,8 @@
   "author": "Your Name",
   "icon": "https://cdn-icons-png.flaticon.com/512/1239/1239387.png",
   "permissions": [
-    "bitable:app",
-    "bitable:record:read",
-    "bitable:record:write"
+    "bitable:record:read"
   ],
-  "data_scopes": {
-    "description": "本插件仅处理用户在配置中选择的字段数据，用于生成二维码，不收集、存储或传输任何用户数据到外部服务器",
-    "fields": ["content"]
-  },
-  "privacy_policy": {
-    "url": "https://www.feishu.cn/privacy"
-  },
-  "terms_of_service": {
-    "url": "https://www.feishu.cn/terms"
-  },
   "entry_points": {
     "bitable:field_shortcut": {
       "type": "function",
@@ -31,12 +19,6 @@
             "type": "string",
             "description": "需要生成二维码的内容（比如网址、文本等）",
             "required": true
-          },
-          {
-            "name": "logo",
-            "type": "string",
-            "description": "logo图片URL，可将品牌标识、个性化图标嵌入二维码中心",
-            "required": false
           },
           {
             "name": "qrColor",
@@ -53,45 +35,11 @@
             "default": "#ffffff"
           },
           {
-            "name": "text",
-            "type": "string",
-            "description": "二维码下方的文字内容",
-            "required": false
-          },
-          {
-            "name": "textColor",
-            "type": "string",
-            "description": "二维码下方文字的颜色（HEX色值），默认黑色",
-            "required": false,
-            "default": "#000000"
-          },
-          {
-            "name": "textSize",
-            "type": "number",
-            "description": "二维码下方文字的大小，默认12",
-            "required": false,
-            "default": 12
-          },
-          {
             "name": "size",
             "type": "number",
             "description": "二维码尺寸，默认200",
             "required": false,
             "default": 200
-          },
-          {
-            "name": "margin",
-            "type": "number",
-            "description": "二维码边距，默认1",
-            "required": false,
-            "default": 1
-          },
-          {
-            "name": "errorCorrectionLevel",
-            "type": "string",
-            "description": "二维码容错率，可选值：L、M、Q、H，默认M",
-            "required": false,
-            "default": "M"
           }
         ],
         "returns": {
@@ -100,14 +48,5 @@
         }
       }
     }
-  },
-  "compatibility": {
-    "bitable": {
-      "min_version": "3.0.0"
-    }
-  },
-  "performance": {
-    "execution_time_limit": 5000,
-    "memory_limit": 128
   }
 }
