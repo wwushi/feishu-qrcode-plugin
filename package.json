@@ -8,7 +8,7 @@
     "pack": "node package-plugin.js"
   },
   "keywords": [],
-  "author": "",
+  "author": "五拾",
   "license": "MIT",
   "type": "commonjs",
   "dependencies": {
