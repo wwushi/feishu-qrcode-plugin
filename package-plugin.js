@@ -17,11 +17,11 @@ const packagePlugin = async () => {
   await installArchiver();
   
   const archiver = require('archiver');
-  const output = fs.createWriteStream(path.join(__dirname, 'feishu-qrcode-plugin.zip'));
+  const output = fs.createWriteStream(path.join(__dirname, 'output.zip'));
   const archive = archiver('zip', { zlib: { level: 9 } });
 
   output.on('close', () => {
-    console.log(`插件包已生成: feishu-qrcode-plugin.zip (${archive.pointer()} bytes)`);
+    console.log(`插件包已生成: output.zip (${archive.pointer()} bytes)`);
   });
 
   archive.on('error', (err) => {
