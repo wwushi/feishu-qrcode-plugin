@@ -1,0 +1,87 @@
+{
+  "name": "二维码生成器",
+  "description": "将多维表格字段内容生成二维码，并支持自动更新",
+  "version": "1.0.0",
+  "author": "Your Name",
+  "icon": "https://cdn-icons-png.flaticon.com/512/1239/1239387.png",
+  "permissions": [
+    "bitable:app",
+    "bitable:record:read",
+    "bitable:record:write"
+  ],
+  "entry_points": {
+    "bitable:field_shortcut": {
+      "type": "function",
+      "function": {
+        "name": "generateQRCode",
+        "description": "将字段内容生成二维码",
+        "parameters": [
+          {
+            "name": "content",
+            "type": "string",
+            "description": "需要生成二维码的数据，可以是文本或链接",
+            "required": true
+          },
+          {
+            "name": "size",
+            "type": "number",
+            "description": "二维码尺寸，默认200",
+            "required": false,
+            "default": 200
+          },
+          {
+            "name": "logo",
+            "type": "string",
+            "description": "二维码中心的logo图片URL",
+            "required": false
+          },
+          {
+            "name": "qrColor",
+            "type": "string",
+            "description": "二维码颜色，默认黑色",
+            "required": false,
+            "default": "#000000"
+          },
+          {
+            "name": "bgColor",
+            "type": "string",
+            "description": "二维码背景色，默认白色",
+            "required": false,
+            "default": "#ffffff"
+          },
+          {
+            "name": "text",
+            "type": "string",
+            "description": "二维码下方的文字",
+            "required": false
+          },
+          {
+            "name": "textColor",
+            "type": "string",
+            "description": "二维码文字颜色，默认黑色",
+            "required": false,
+            "default": "#000000"
+          },
+          {
+            "name": "textSize",
+            "type": "number",
+            "description": "二维码文字大小，默认12",
+            "required": false,
+            "default": 12
+          },
+          {
+            "name": "generateRange",
+            "type": "string",
+            "description": "生成范围，整列或单行",
+            "required": false,
+            "default": "column"
+          }
+        ],
+        "returns": {
+          "type": "string",
+          "description": "二维码图片的Base64编码"
+        }
+      }
+    }
+  }
+}
