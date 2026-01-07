@@ -1,6 +1,6 @@
 {
   "name": "二维码生成器",
-  "description": "将多维表格字段内容生成二维码，并支持自动更新",
+  "description": "将多维表格字段内容生成高质量二维码，并支持丰富的个性化配置和自动更新",
   "version": "1.0.0",
   "author": "Your Name",
   "icon": "https://cdn-icons-png.flaticon.com/512/1239/1239387.png",
@@ -9,12 +9,22 @@
     "bitable:record:read",
     "bitable:record:write"
   ],
+  "data_scopes": {
+    "description": "本插件仅处理用户在配置中选择的字段数据，用于生成二维码，不收集、存储或传输任何用户数据到外部服务器",
+    "fields": ["content"]
+  },
+  "privacy_policy": {
+    "url": "https://www.feishu.cn/privacy"
+  },
+  "terms_of_service": {
+    "url": "https://www.feishu.cn/terms"
+  },
   "entry_points": {
     "bitable:field_shortcut": {
       "type": "function",
       "function": {
         "name": "generateQRCode",
-        "description": "将字段内容生成二维码",
+        "description": "将字段内容生成二维码，支持个性化配置",
         "parameters": [
           {
             "name": "content",
@@ -90,5 +100,14 @@
         }
       }
     }
+  },
+  "compatibility": {
+    "bitable": {
+      "min_version": "3.0.0"
+    }
+  },
+  "performance": {
+    "execution_time_limit": 5000,
+    "memory_limit": 128
   }
 }
