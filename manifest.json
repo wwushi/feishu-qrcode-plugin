@@ -3,7 +3,7 @@
   "description": "将多维表格字段内容生成高质量二维码，并支持丰富的个性化配置和自动更新",
   "version": "1.0.0",
   "author": "五拾",
-  "icon": "https://cdn-icons-png.flaticon.com/512/1239/1239387.png",
+  "icon": "qr.svg",
   "permissions": [
     "bitable:record:read"
   ],

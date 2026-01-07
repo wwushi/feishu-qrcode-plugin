@@ -35,7 +35,8 @@ const packagePlugin = async () => {
     'index.js',
     'manifest.json',
     'package.json',
-    'package-lock.json'
+    'package-lock.json',
+    'qr.svg'
   ];
 
   filesToInclude.forEach(file => {
