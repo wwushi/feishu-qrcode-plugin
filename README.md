@@ -120,15 +120,74 @@
 
 ```
 feishu-qrcode-plugin/
-├── index.js          # 插件主逻辑
-├── manifest.json     # 插件配置文件
+├── index.js          # 插件主逻辑，包含二维码生成核心函数
+├── manifest.json     # 插件配置文件，定义插件信息、权限和参数
 ├── package.json      # 项目依赖配置
 ├── package-lock.json # 项目依赖锁定文件
-├── package-plugin.js # 打包脚本
-├── qr.svg            # 插件图标
+├── package-plugin.js # 打包脚本，用于生成插件ZIP文件
+├── qr.svg            # 插件图标，本地SVG文件
 ├── README.md         # 项目说明文档
 └── LICENSE           # 项目许可证
 ```
+
+### 配置文件说明
+
+#### manifest.json 详细配置
+
+`manifest.json` 是飞书插件的核心配置文件，定义了插件的基本信息、权限、入口点和参数等。
+
+```json
+{
+  "name": "二维码生成器-50",             // 插件名称，显示在飞书平台上
+  "description": "将多维表格字段内容生成高质量二维码...",  // 插件功能描述
+  "version": "1.0.0",                   // 插件版本号
+  "author": "五拾",                      // 插件作者
+  "icon": "qr.svg",                     // 插件图标文件路径（本地SVG文件）
+  "permissions": [                      // 插件需要的权限列表
+    "bitable:record:read"               // 读取表格记录数据的权限
+  ],
+  "entry_points": {                     // 插件的入口点配置
+    "bitable:field_shortcut": {         // 字段捷径类型插件
+      "type": "function",              // 入口类型为函数
+      "function": {                     // 函数配置
+        "name": "generateQRCode",      // 入口函数名，对应index.js中的导出函数
+        "description": "将字段内容生成二维码，支持个性化配置", // 函数描述
+        "parameters": [                 // 函数参数定义
+          {
+            "name": "content",         // 参数名
+            "type": "string",          // 参数类型
+            "description": "需要生成二维码的内容（比如网址、文本等）", // 参数描述
+            "required": true            // 是否必填
+          },
+          {
+            "name": "qrColor",         // 二维码颜色参数
+            "type": "string",
+            "description": "二维码颜色（HEX色值），默认黑色",
+            "required": false,          // 可选参数
+            "default": "#000000"       // 默认值
+          },
+          // 其他参数配置...
+        ],
+        "returns": {                    // 函数返回值定义
+          "type": "string",
+          "description": "二维码图片的Base64编码"
+        }
+      }
+    }
+  }
+}
+```
+
+#### package-plugin.js 打包流程
+
+`package-plugin.js` 是插件的打包脚本，负责将插件文件和依赖打包成ZIP文件：
+
+1. **检查依赖**：确保archiver库已安装
+2. **创建输出流**：创建output.zip文件的写入流
+3. **初始化压缩器**：使用最高压缩级别
+4. **添加文件**：将必要的插件文件添加到ZIP包
+5. **添加依赖**：将node_modules目录添加到ZIP包
+6. **完成打包**：生成最终的插件ZIP文件
 
 ### 核心功能
 
@@ -136,9 +195,17 @@ feishu-qrcode-plugin/
   - `content`：要生成二维码的文本内容或链接（必填）
   - `qrColor`：二维码颜色（HEX色值），默认黑色
   - `bgColor`：二维码背景色（HEX色值），默认白色
-  - `size`：二维码尺寸，默认200
+  - `size`：二维码尺寸（像素），默认200
   - `errorCorrectionLevel`：容错率级别，默认M
-  - 返回：二维码图片的 Base64 编码
+  - 返回：二维码图片的 Base64 编码，用于直接嵌入表格
+
+### 插件工作流程
+
+1. **配置触发**：用户在飞书多维表格中配置字段捷径，选择本插件
+2. **参数传递**：飞书平台将用户配置的参数传递给插件
+3. **二维码生成**：插件调用`generateQRCode`函数生成二维码
+4. **结果返回**：插件返回Base64编码的二维码图片
+5. **自动更新**：当源字段内容变化时，飞书平台自动重新调用插件生成新的二维码
 
 ## 注意事项
 
