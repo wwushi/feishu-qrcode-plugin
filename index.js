@@ -47,6 +47,4 @@ async function generateQRCode(
 
 // 导出函数供飞书插件系统调用
 // 飞书平台会自动调用此函数生成二维码
-module.exports = {
-  generateQRCode
-};
+module.exports = generateQRCode;

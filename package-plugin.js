@@ -26,6 +26,7 @@ const installArchiver = async () => {
 /**
  * 打包插件的主函数
  * 功能：将插件文件打包成ZIP文件，用于上传到飞书开发者后台
+ * 按照飞书公式插件要求，只包含必要的文件
  * @returns {Promise<void>}
  */
 const packagePlugin = async () => {
@@ -51,12 +52,11 @@ const packagePlugin = async () => {
   // 6. 将archiver输出流指向ZIP文件
   archive.pipe(output);
 
-  // 7. 定义需要打包的文件列表
+  // 7. 定义需要打包的文件列表（飞书公式插件必要文件）
   const filesToInclude = [
     'index.js',          // 插件主逻辑文件
     'manifest.json',     // 插件配置文件
     'package.json',      // 项目依赖配置
-    'package-lock.json', // 项目依赖锁定文件
     'qr.svg'             // 插件图标文件
   ];
 
@@ -70,9 +70,8 @@ const packagePlugin = async () => {
     }
   });
 
-  // 9. 将node_modules目录添加到ZIP包中，包含所有依赖
-  archive.directory('node_modules/', 'node_modules');
-  console.log('添加目录: node_modules/');
+  // 9. 不添加node_modules目录，减小打包体积
+  console.log('跳过目录: node_modules/ (按用户要求不包含依赖)');
 
   // 10. 完成ZIP包的创建
   await archive.finalize();
