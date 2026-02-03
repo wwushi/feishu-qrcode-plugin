@@ -3,6 +3,9 @@ const QRCode = require('qrcode');
 // 引入飞书插件API
 const { basekit, FieldType, FieldComponent, FieldCode, uploadAttachments } = require('@lark-opdev/block-basekit-server-api');
 
+// 为 FieldCode 创建类型别名，解决类型编译错误
+type FieldCode = number;
+
 // 定义类型
 interface FormItemParams {
   content?: string;
@@ -28,7 +31,7 @@ interface AttachmentResult {
 
 /* execute 函数返回类型*/
 type AttachmentResultType = {
-    code: typeof FieldCode;
+    code: FieldCode;
     data: {
         name: string;//附件名称,需要带有文件格式后缀
         content: string;//可通过http.Get 请求直接下载的url,且直接get有content-length响应头，不支持base64!
