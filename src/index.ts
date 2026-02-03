@@ -6,9 +6,7 @@ const { basekit, FieldType, FieldComponent, FieldCode, uploadAttachments } = req
 // 定义类型
 interface FormItemParams {
   content?: string;
-  qrColor?: string;
-  bgColor?: string;
-  size?: string;
+  size?: string | { value: string; label: string };
   errorCorrectionLevel?: string | { value: string; label: string };
 }
 
@@ -49,31 +47,7 @@ interface QRCodeOptions {
   errorCorrectionLevel: string;
 }
 
-// 定义颜色格式正则表达式
-const COLOR_REGEX = /^#([A-Fa-f0-9]{6}|[A-Fa-f0-9]{3})$/;
 
-// 验证并修复颜色格式
-function validateAndFixColor(color: string): { valid: boolean; fixedColor: string } {
-  // 尝试修复不完整的颜色值
-  let fixedColor = color;
-  if (fixedColor.startsWith('#') && fixedColor.length === 6) {
-    // #00000 -> #000000
-    fixedColor = fixedColor + '0';
-  } else if (fixedColor.startsWith('#') && fixedColor.length === 4) {
-    // #000 -> #000000
-    const hex = fixedColor.substring(1);
-    fixedColor = '#' + hex + hex;
-  }
-  // 确保使用修复后的颜色值进行验证
-  const valid = COLOR_REGEX.test(fixedColor);
-  return { valid, fixedColor };
-}
-
-// 验证尺寸范围
-function isValidSize(size: number): boolean {
-  console.log('验证尺寸范围:', size, '是否在100-1000之间:', size >= 100 && size <= 1000);
-  return size >= 100 && size <= 1000;
-}
 
 // 验证内容长度
 function isValidContentLength(content: string): boolean {
@@ -175,32 +149,6 @@ basekit.addField({
       },
     },
     {
-      key: 'qrColor',
-      label: '二维码前景色',
-      component: FieldComponent.Input,
-      props: {
-        placeholder: '#000000',
-        description: '请输入十六进制颜色值，例如 #000000',
-        defaultValue: '#000000',
-      },
-      validator: {
-        required: false,
-      },
-    },
-    {
-      key: 'bgColor',
-      label: '二维码背景色',
-      component: FieldComponent.Input,
-      props: {
-        placeholder: '#ffffff',
-        description: '请输入十六进制颜色值，例如 #ffffff',
-        defaultValue: '#ffffff',
-      },
-      validator: {
-        required: false,
-      },
-    },
-    {
       key: 'size',
       label: '二维码尺寸',
       component: FieldComponent.SingleSelect,
@@ -243,10 +191,14 @@ basekit.addField({
     try {
       // 1. 解析参数
       const content = formItemParams.content || '';
-      const qrColor = formItemParams.qrColor || '#000000';
-      const bgColor = formItemParams.bgColor || '#ffffff';
-      // 修复尺寸解析，确保即使解析失败也有默认值
-      const size = parseInt(formItemParams.size || '400', 10) || 400;
+      // 固定默认颜色：前景色黑色，背景色白色
+      const qrColor = '#000000';
+      const bgColor = '#ffffff';
+      // 修复尺寸解析，处理对象类型的输入
+      const sizeValue = typeof formItemParams.size === 'object' 
+        ? formItemParams.size.value 
+        : (formItemParams.size || '400');
+      const size = parseInt(sizeValue, 10) || 400;
       // 修复容错率解析，从对象中提取value属性
       const errorCorrectionLevel = typeof formItemParams.errorCorrectionLevel === 'object' 
         ? formItemParams.errorCorrectionLevel.value 
@@ -255,8 +207,6 @@ basekit.addField({
       // 输出参数解析结果，便于调试
       console.log('参数解析结果:', {
         content,
-        qrColor,
-        bgColor,
         size,
         errorCorrectionLevel
       });
@@ -277,47 +227,16 @@ basekit.addField({
         };
       }
       
-      // 验证并修复颜色格式
-      const qrColorResult = validateAndFixColor(qrColor);
-      if (!qrColorResult.valid) {
-        return {
-            code: 1254406,
-            data: [],
-        };
-      }
-      const fixedQrColor = qrColorResult.fixedColor;
+      // 颜色值固定，无需验证
       
-      const bgColorResult = validateAndFixColor(bgColor);
-      if (!bgColorResult.valid) {
-        return {
-            code: 1254406,
-            data: [],
-        };
-      }
-      const fixedBgColor = bgColorResult.fixedColor;
-      
-      // 输出修复后的颜色值
-      console.log('颜色修复结果:', {
-        originalQrColor: qrColor,
-        fixedQrColor: fixedQrColor,
-        originalBgColor: bgColor,
-        fixedBgColor: fixedBgColor
-      });
-      
-      // 验证尺寸
-      if (!isValidSize(size)) {
-        return {
-            code: 1254406,
-            data: [],
-        };
-      }
+      // 尺寸通过固定选项选择，无需验证范围
       
       // 3. 生成二维码
       const qrBuffer = await generateQRCode({
         content,
         size,
-        qrColor: fixedQrColor,
-        bgColor: fixedBgColor,
+        qrColor,
+        bgColor,
         errorCorrectionLevel,
       });
       
