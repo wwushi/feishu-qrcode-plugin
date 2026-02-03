@@ -13,7 +13,7 @@
     "typecheck": "tsc --noEmit"
   },
   "author": "",
-  "license": "ISC",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@lark-opdev/block-basekit-cli": "^1.0.5",
     "@types/node": "^20.19.30",
