@@ -28,7 +28,7 @@ interface AttachmentResult {
 
 /* execute 函数返回类型*/
 type AttachmentResultType = {
-    code: number;
+    code: typeof FieldCode;
     data: {
         name: string;//附件名称,需要带有文件格式后缀
         content: string;//可通过http.Get 请求直接下载的url,且直接get有content-length响应头，不支持base64!
