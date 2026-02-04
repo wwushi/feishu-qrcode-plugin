@@ -1,20 +1,5 @@
-# Dependencies
 node_modules/
-
-# Build output
-dist/
-output/
-
-# IDE
-.vscode/
-
-# Environment variables
-.env
-
-# Logs
-logs
-*.log
-
-# OS
 .DS_Store
-Thumbs.db
+package-lock.json
+pnpm-lock.yaml
+.vscode/
